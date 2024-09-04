@@ -11,9 +11,5 @@
       "src": "/(.*)",
       "dest": "/index.js"
     }
-  ],
-  "env": {
-    "DISCORD_TOKEN": "@discord_token",
-    "PORT": "3000"
-  }
+  ]
 }
