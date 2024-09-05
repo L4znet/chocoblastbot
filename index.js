@@ -1,7 +1,8 @@
-const { Client, GatewayIntentBits } = require('discord.js');
-const dotenv = require('dotenv');
-const path = require('path');
-const fs = require('fs');
+import { Client, GatewayIntentBits } from 'discord.js';
+import dotenv from 'dotenv';
+import path from 'path';
+import fs from 'fs';
+
 
 dotenv.config();
 const token = process.env.TOKEN;
