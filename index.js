@@ -4,6 +4,7 @@ import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v10';
 import { chocoblast } from './commands/chocoblast.js';
 import { cowsaybigeyes } from './commands/cowsays.js';
+import { ohsnap } from './commands/snap.js';
 
 dotenv.config();
 const token = process.env.DISCORD_TOKEN;
@@ -15,7 +16,6 @@ if (!token || !clientId || !guildId) {
     process.exit(1);
 }
 
-// Définir les commandes slash
 const commands = [
     {
         name: 'chocoblast',
@@ -41,6 +41,10 @@ const commands = [
             },
         ],
     },
+    {
+        name: 'Oh Snap !',
+        description: "Pour afficher le Oh Snap ! de Ytrack",
+    }
 ];
 
 const rest = new REST({ version: '10' }).setToken(token);
@@ -91,6 +95,9 @@ client.on(Events.InteractionCreate, async (interaction) => {
                 const cowsayMessage = cowsaybigeyes(text);
                 await interaction.reply('```\n' + cowsayMessage + '\n```');
                 break;
+            case "snap":
+                const snapgif = ohsnap();
+                await interaction.reply(snapgif);
             default:
                 await interaction.reply('Unknown command.');
                 break;
