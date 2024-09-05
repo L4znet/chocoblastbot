@@ -12,9 +12,8 @@ const commandHandler = async (message) => {
     try {
         switch (command) {
             case 'chocoblast':
-                const victim = args[0];
-                const author = args.slice(1).join(' ') || '';
-                const chocoblastMessage = chocoblast(victim, author);
+                const author = args[0];
+                const chocoblastMessage = chocoblast(message.author, author);
                 await message.reply(chocoblastMessage);
                 break;
             case 'cowsay':

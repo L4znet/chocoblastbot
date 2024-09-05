@@ -12,16 +12,24 @@ console.log('Starting command deployment...'); // Debugging log
 const commands = [
     {
         name: 'chocoblast',
-        description: 'Send a special message!',
+        description: "Pour chocoblaster quelqu'un",
+        options: [
+            {
+                type: 3,
+                name: 'author',
+                description: "L'auteur du chocoblast (optionnel)",
+                required: false,
+            },
+        ],
     },
     {
         name: 'cowsay',
-        description: 'Generate text with cowsay.',
+        description: 'Générer un texte avec cowsay.',
         options: [
             {
-                type: 3, // STRING type
+                type: 3,
                 name: 'text',
-                description: 'Text to generate with cowsay',
+                description: 'Le texte que vous souhaitez que la vache dise',
                 required: true,
             },
         ],
