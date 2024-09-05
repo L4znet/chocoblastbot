@@ -5,9 +5,9 @@ import fs from 'fs';
 import commandHandler from './handlers/commandHandler.js';
 
 dotenv.config();
-const token = process.env.TOKEN;
+const token = process.env.DISCORD_TOKEN;
 if (!token) {
-    console.error('Token is missing. Please set the TOKEN environment variable.');
+    console.error('Discord Token is missing. Please set the TOKEN environment variable.');
     process.exit(1);
 }
 
