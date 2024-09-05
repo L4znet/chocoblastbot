@@ -39,13 +39,13 @@ client.on('messageCreate', async (message) => {
         switch (command) {
             case "chocoblast":
                 const chocoblastCommand = await loadCommand("chocoblast", "chocoblast");
-                message.reply(chocoblastCommand(message.author));
+                await message.reply(chocoblastCommand(message.author));
                 break;
             case "cowsay":
                 if (args.length > 0) {
                     const cowsayCommand = await loadCommand("cowsays", "cowsaybigeyes");
                     const text = args.join(' ');
-                    message.reply('```\n' + cowsayCommand(text) + '\n```');
+                    await message.reply('```\n' + cowsayCommand(text) + '\n```');
                 }
                 break;
             default:
