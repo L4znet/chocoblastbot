@@ -42,7 +42,7 @@ const commands = [
         ],
     },
     {
-        name: 'Oh Snap !',
+        name: 'ohsnap',
         description: "Pour afficher le Oh Snap ! de Ytrack",
     }
 ];
