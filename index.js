@@ -82,9 +82,8 @@ client.on(Events.InteractionCreate, async (interaction) => {
     try {
         switch (commandName) {
             case 'chocoblast':
-                const victime = options.getString('victime');
-                const author = options.getString('author') || '';
-                const chocoblastMessage = chocoblast(victime, author);
+                const author = options.getString('author');
+                const chocoblastMessage = chocoblast(interaction.user.username , author);
                 await interaction.reply(chocoblastMessage);
                 break;
             case 'cowsay':
