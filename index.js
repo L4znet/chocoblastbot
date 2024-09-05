@@ -1,7 +1,7 @@
-import { Client, GatewayIntentBits } from 'discord.js';
-import dotenv from 'dotenv';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+const { Client, GatewayIntentBits } = require('discord.js');
+const dotenv = require('dotenv');
+const path = require('path');
+const fs = require('fs');
 
 dotenv.config();
 const token = process.env.TOKEN;
@@ -13,23 +13,21 @@ const client = new Client({
     ]
 });
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
 const PREFIX = "/";
 
-// Load command dynamically
-const loadCommand = async (filename, methodname) => {
-    const commandModule = await import(`./commands/${filename}.mjs`);
+// Charger les commandes dynamiquement
+const loadCommand = (filename, methodname) => {
+    const commandPath = path.resolve(__dirname, `commands/${filename}.js`);
+    const commandModule = require(commandPath);
     return commandModule[methodname];
 };
 
-// Handle when the bot is ready
+// Gérer l'événement lorsque le bot est prêt
 client.once('ready', () => {
     console.log(`Logged in as ${client.user.tag}`);
 });
 
-// Handle incoming messages
+// Gérer les messages entrants
 client.on('messageCreate', async (message) => {
     if (message.author.bot) return;
 
@@ -42,12 +40,12 @@ client.on('messageCreate', async (message) => {
         try {
             switch (command) {
                 case "chocoblast":
-                    const chocoblastCommand = await loadCommand("chocoblast", "chocoblast");
+                    const chocoblastCommand = loadCommand("chocoblast", "chocoblast");
                     await message.reply(chocoblastCommand(message.author));
                     break;
                 case "cowsay":
                     if (args.length > 0) {
-                        const cowsayCommand = await loadCommand("cowsays", "cowsaybigeyes");
+                        const cowsayCommand = loadCommand("cowsays", "cowsaybigeyes");
                         const text = args.join(' ');
                         await message.reply('```\n' + cowsayCommand(text) + '\n```');
                     }
@@ -62,5 +60,5 @@ client.on('messageCreate', async (message) => {
     }
 });
 
-// Login to Discord
+// Connexion au bot Discord
 client.login(token);
