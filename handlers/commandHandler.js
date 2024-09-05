@@ -9,6 +9,8 @@ const commandHandler = async (message) => {
         .substring(PREFIX.length)
         .split(/\s+/);
 
+    console.log(message.author.username)
+
     try {
         switch (command) {
             case 'chocoblast':
