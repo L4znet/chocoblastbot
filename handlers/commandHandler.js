@@ -25,7 +25,8 @@ const loadCommand = async (filename, methodname) => {
 
 // Gérer les commandes
 const commandHandler = async (message) => {
-    const [command, args] = message.content
+    const [command, ...args] = message.content
+
         .trim()
         .substring(PREFIX.length)
         .split(/\s+/);
@@ -33,9 +34,9 @@ const commandHandler = async (message) => {
     try {
         switch (command) {
             case "chocoblast":
-
+                const text = args.join(' ');
                 const chocoblastCommand = await loadCommand("chocoblast", "chocoblast");
-                await message.reply(chocoblastCommand(message.author, args));
+                await message.reply(chocoblastCommand(message.author, text));
                 break;
             case "cowsay":
                 if (args.length > 0) {
