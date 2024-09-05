@@ -28,6 +28,10 @@ const commandHandler = async (message) => {
                     await message.reply('Please provide text for cowsay.');
                 }
                 break;
+            case "snap":
+                const snapgif = ohsnap();
+                await message.reply(snapgif);
+                break;
             default:
                 await message.reply('Unknown command.');
                 break;
