@@ -13,7 +13,7 @@ const commandHandler = async (message) => {
         switch (command) {
             case 'chocoblast':
                 const author = args[0];
-                const chocoblastMessage = chocoblast(message.author, author);
+                const chocoblastMessage = chocoblast(message.author.username, author);
                 await message.reply(chocoblastMessage);
                 break;
             case 'cowsay':
