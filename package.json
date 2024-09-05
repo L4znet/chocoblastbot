@@ -1,10 +1,10 @@
 {
   "name": "chocoblast",
-  "module": "index.mjs",
+  "module": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.mjs",
-    "dev": "nodemon index.mjs"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "dependencies": {
     "cowsay": "^1.6.0",
