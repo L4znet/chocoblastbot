@@ -1,3 +1,3 @@
-export const chocoblast = (author) => {
-    return `🔥 Voilà quelque chose de spécial pour vous : **${author}** s'est fait chocoblast 🍫 !`;
+export const chocoblast = (victime, author) => {
+    return `🔥 Voilà quelque chose de spécial pour vous : **${victime}** s'est fait chocoblast 🍫 par ${author}!`;
 };

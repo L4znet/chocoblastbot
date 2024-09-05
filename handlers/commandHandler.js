@@ -33,8 +33,10 @@ const commandHandler = async (message) => {
     try {
         switch (command) {
             case "chocoblast":
+
+                console.log(args)
                 const chocoblastCommand = await loadCommand("chocoblast", "chocoblast");
-                await message.reply(chocoblastCommand(message.author));
+                await message.reply(chocoblastCommand(message.author, ));
                 break;
             case "cowsay":
                 if (args.length > 0) {
