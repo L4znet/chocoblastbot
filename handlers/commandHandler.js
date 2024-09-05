@@ -25,7 +25,7 @@ const loadCommand = async (filename, methodname) => {
 
 // Gérer les commandes
 const commandHandler = async (message) => {
-    const [command, ...args] = message.content
+    const [command, args] = message.content
         .trim()
         .substring(PREFIX.length)
         .split(/\s+/);
