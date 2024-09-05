@@ -95,7 +95,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
                 const cowsayMessage = cowsaybigeyes(text);
                 await interaction.reply('```\n' + cowsayMessage + '\n```');
                 break;
-            case "snap":
+            case "ohsnap":
                 const snapgif = ohsnap();
                 await interaction.reply(snapgif);
             default:
