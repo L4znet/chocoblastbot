@@ -42,7 +42,7 @@ const commandHandler = async (message) => {
         }
     } catch (error) {
         console.error('Error handling command:', error);
-        await message.reply('There was an error processing your command.');
+        await message.reply('There was an error processing your command.' + error);
     }
 };
 
