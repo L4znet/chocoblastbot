@@ -1,7 +1,7 @@
-import { Client, GatewayIntentBits } from 'discord.js';
+import { Client, GatewayIntentBits, Events } from 'discord.js';
 import dotenv from 'dotenv';
-import path from 'path';
-import fs from 'fs';
+import { chocoblast } from './commands/chocoblast.js';  // Adjust path if necessary
+import { cowsaybigeyes } from './commands/cowsays.js';  // Adjust path if necessary
 import commandHandler from './handlers/commandHandler.js';
 
 dotenv.config();
@@ -11,7 +11,7 @@ if (!token) {
     process.exit(1);
 }
 
-// Créer un nouveau client Discord
+// Create a new client instance
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -20,13 +20,13 @@ const client = new Client({
     ]
 });
 
-// Gérer l'événement lorsque le bot est prêt
-client.once('ready', () => {
+// Handle the 'ready' event
+client.once(Events.ClientReady, () => {
     console.log(`Logged in as ${client.user.tag}`);
 });
 
-// Gérer les messages entrants
-client.on('messageCreate', async (message) => {
+// Handle messages
+client.on(Events.MessageCreate, async (message) => {
     if (message.author.bot) return;
 
     if (message.content.startsWith('/')) {
@@ -34,8 +34,39 @@ client.on('messageCreate', async (message) => {
     }
 });
 
-// Connexion au bot Discord
+// Handle interactions (including slash commands)
+client.on(Events.InteractionCreate, async (interaction) => {
+    if (!interaction.isCommand()) return;
+
+    const { commandName, options } = interaction;
+
+    try {
+        switch (commandName) {
+            case 'chocoblast':
+                const victime = options.getString('victime');
+                const author = options.getString('author') || '';
+                const chocoblastMessage = chocoblast(victime, author);
+                await interaction.reply(chocoblastMessage);
+                break;
+            case 'cowsay':
+                const text = options.getString('text');
+                const cowsayMessage = cowsaybigeyes(text);
+                await interaction.reply('```\n' + cowsayMessage + '\n```');
+                break;
+            default:
+                await interaction.reply('Unknown command.');
+                break;
+        }
+    } catch (error) {
+        console.error('Error handling command:', error);
+        await interaction.reply('There was an error processing your command.');
+    }
+});
+
+// Login to Discord
 client.login(token).catch(error => {
     console.error('Failed to login:', error);
     process.exit(1);
 });
+
+export default client; // Export client if needed elsewhere

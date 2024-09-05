@@ -1,48 +1,26 @@
-import path from 'path';
-import { fileURLToPath } from 'url';
-import fs from 'fs';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { chocoblast } from '../commands/chocoblast.js';
+import { cowsaybigeyes } from '../commands/cowsays.js';
 
 const PREFIX = '/';
 
-// Charger les commandes dynamiquement
-const loadCommand = async (filename, methodname) => {
-    const commandPath = path.resolve(__dirname, `../commands/${filename}.js`);
-    if (!fs.existsSync(commandPath)) {
-        console.error(`Command file ${commandPath} does not exist.`);
-        return () => 'Command file not found.';
-    }
-    try {
-        const commandModule = await import(`file://${commandPath}`);
-        return commandModule[methodname] || (() => 'Method not found.');
-    } catch (error) {
-        console.error(`Error loading command module ${commandPath}:`, error);
-        return () => 'Error loading command module.';
-    }
-};
-
-// Gérer les commandes
 const commandHandler = async (message) => {
     const [command, ...args] = message.content
-
         .trim()
         .substring(PREFIX.length)
         .split(/\s+/);
 
     try {
         switch (command) {
-            case "chocoblast":
-                const text = args.join(' ');
-                const chocoblastCommand = await loadCommand("chocoblast", "chocoblast");
-                await message.reply(chocoblastCommand(message.author, text));
+            case 'chocoblast':
+                const victim = args[0];
+                const author = args.slice(1).join(' ') || '';
+                const chocoblastMessage = chocoblast(victim, author);
+                await message.reply(chocoblastMessage);
                 break;
-            case "cowsay":
+            case 'cowsay':
                 if (args.length > 0) {
-                    const cowsayCommand = await loadCommand("cowsays", "cowsaybigeyes");
-                    const text = args.join(' ');
-                    await message.reply('```\n' + cowsayCommand(text) + '\n```');
+                    const cowsayMessage = cowsaybigeyes(args.join(' '));
+                    await message.reply('```\n' + cowsayMessage + '\n```');
                 } else {
                     await message.reply('Please provide text for cowsay.');
                 }
