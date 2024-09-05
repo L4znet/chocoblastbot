@@ -1,12 +1,13 @@
 {
   "name": "chocoblast",
-  "module": "index.js",
+  "module": "index.mjs",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "node index.mjs",
+    "dev": "nodemon index.mjs"
   },
   "dependencies": {
+    "cowsay": "^1.6.0",
     "discord.js": "^14.16.1",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
