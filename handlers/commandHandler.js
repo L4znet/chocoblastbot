@@ -1,7 +1,10 @@
 import path from 'path';
 import fs from 'fs';
-
+import { fileURLToPath } from 'url';
 const PREFIX = '/';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Charger les commandes dynamiquement
 const loadCommand = (filename, methodname) => {
