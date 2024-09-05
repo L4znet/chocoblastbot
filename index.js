@@ -1,17 +1,71 @@
 import { Client, GatewayIntentBits, Events } from 'discord.js';
 import dotenv from 'dotenv';
-import { chocoblast } from './commands/chocoblast.js';  // Adjust path if necessary
-import { cowsaybigeyes } from './commands/cowsays.js';  // Adjust path if necessary
-import commandHandler from './handlers/commandHandler.js';
+import { REST } from '@discordjs/rest';
+import { Routes } from 'discord-api-types/v10';
+import { chocoblast } from './commands/chocoblast.js';
+import { cowsaybigeyes } from './commands/cowsays.js';
 
 dotenv.config();
 const token = process.env.DISCORD_TOKEN;
-if (!token) {
-    console.error('Discord Token is missing. Please set the TOKEN environment variable.');
+const clientId = process.env.CLIENT_ID;
+const guildId = process.env.GUILD_ID;
+
+if (!token || !clientId || !guildId) {
+    console.error('Missing environment variables. Please check your .env file.');
     process.exit(1);
 }
 
-// Create a new client instance
+// Définir les commandes slash
+const commands = [
+    {
+        name: 'chocoblast',
+        description: 'Send a special message!',
+        options: [
+            {
+                type: 3, // STRING type
+                name: 'victime',
+                description: 'Recipient of the chocoblast',
+                required: true,
+            },
+            {
+                type: 3, // STRING type
+                name: 'author',
+                description: 'Author of the chocoblast',
+                required: false,
+            },
+        ],
+    },
+    {
+        name: 'cowsay',
+        description: 'Generate text with cowsay.',
+        options: [
+            {
+                type: 3, // STRING type
+                name: 'text',
+                description: 'Text to generate with cowsay',
+                required: true,
+            },
+        ],
+    },
+];
+
+const rest = new REST({ version: '10' }).setToken(token);
+
+(async () => {
+    try {
+        console.log('Started refreshing application (/) commands.');
+
+        await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
+            body: commands,
+        });
+
+        console.log('Successfully reloaded application (/) commands.');
+    } catch (error) {
+        console.error('Error deploying commands:', error);
+    }
+})();
+
+// Créer un nouveau client Discord
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -20,21 +74,12 @@ const client = new Client({
     ]
 });
 
-// Handle the 'ready' event
+// Gérer l'événement lorsque le bot est prêt
 client.once(Events.ClientReady, () => {
     console.log(`Logged in as ${client.user.tag}`);
 });
 
-// Handle messages
-client.on(Events.MessageCreate, async (message) => {
-    if (message.author.bot) return;
-
-    if (message.content.startsWith('/')) {
-        await commandHandler(message);
-    }
-});
-
-// Handle interactions (including slash commands)
+// Gérer les interactions (y compris les commandes slash)
 client.on(Events.InteractionCreate, async (interaction) => {
     if (!interaction.isCommand()) return;
 
@@ -63,10 +108,8 @@ client.on(Events.InteractionCreate, async (interaction) => {
     }
 });
 
-// Login to Discord
+// Connexion au bot Discord
 client.login(token).catch(error => {
     console.error('Failed to login:', error);
     process.exit(1);
 });
-
-export default client; // Export client if needed elsewhere
