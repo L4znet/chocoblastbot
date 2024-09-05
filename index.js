@@ -19,30 +19,24 @@ if (!token || !clientId || !guildId) {
 const commands = [
     {
         name: 'chocoblast',
-        description: 'Send a special message!',
+        description: "Pour chocoblaster quelqu'un.",
         options: [
             {
-                type: 3, // STRING type
-                name: 'victime',
-                description: 'Recipient of the chocoblast',
-                required: true,
-            },
-            {
-                type: 3, // STRING type
+                type: 3,
                 name: 'author',
-                description: 'Author of the chocoblast',
+                description: "L'auteur du chocoblast",
                 required: false,
             },
         ],
     },
     {
         name: 'cowsay',
-        description: 'Generate text with cowsay.',
+        description: "Pour faire dire quelque chose à une vache avec des gros yeux.",
         options: [
             {
-                type: 3, // STRING type
+                type: 3,
                 name: 'text',
-                description: 'Text to generate with cowsay',
+                description: "Le texte à faire dire à la vache",
                 required: true,
             },
         ],
