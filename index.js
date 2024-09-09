@@ -5,6 +5,7 @@ import { Routes } from 'discord-api-types/v10';
 import { chocoblast } from './commands/chocoblast.js';
 import { cowsaybigeyes } from './commands/cowsays.js';
 import { ohsnap } from './commands/snap.js';
+import { naoned } from './commands/naoned.js';
 
 dotenv.config();
 const token = process.env.DISCORD_TOKEN;
@@ -44,7 +45,19 @@ const commands = [
     {
         name: 'ohsnap',
         description: "Pour afficher le Oh Snap ! de Ytrack",
-    }
+    },
+    {
+        name: 'naoned',
+        description: "Pour dire que vous allez être en retard",
+        options: [
+            {
+                type: 3,
+                name: 'text',
+                description: "Votre heure d'arrivée, sous le format : 8h30",
+                required: true,
+            },
+        ],
+    },
 ];
 
 const rest = new REST({ version: '10' }).setToken(token);
@@ -98,6 +111,11 @@ client.on(Events.InteractionCreate, async (interaction) => {
             case "ohsnap":
                 const snapgif = ohsnap();
                 await interaction.reply(snapgif);
+                break;
+            case "naoned":
+                const landingHour = options.getString('landingHour');
+                const youLate = naoned(interaction.user.username, landingHour);
+                await interaction.reply(youLate);
             default:
                 await interaction.reply('Unknown command.');
                 break;
