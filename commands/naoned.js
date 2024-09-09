@@ -1,7 +1,5 @@
 export const naoned = (author, landingHour) => {
 
-const hour = landingHour.split("h")[0];
-const minute = landingHour.split("h")[1];
 
     const answers = [
         { id: 1, text: "Son bus a subi une panne de réveil !" },
@@ -59,8 +57,9 @@ const minute = landingHour.split("h")[1];
     ];
 
 
-    const randomAnswer = answers.filter(response => response.id === Math.floor(Math.random() * answers.length) + 1);
+    const randomAnswer = answers[Math.floor(Math.random() * answers.length)].text;
+    const landingHourSplit = landingHour.split("h");
 
-    return `🔥 ${author} risque d'arriver en retard ! Arrivée prévu à` + parseInt(hour) + "h" + minute +" ! " + randomAnswer;
+     return "🔥 **" + author + "** risque d'arriver en retard ! Arrivée prévu à" + parseInt(landingHourSplit[0]) + "h" + parseInt(landingHourSplit[1]) +" ! " + randomAnswer
 }
 

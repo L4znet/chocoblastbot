@@ -52,7 +52,7 @@ const commands = [
         options: [
             {
                 type: 3,
-                name: 'text',
+                name: 'hour',
                 description: "Votre heure d'arrivée, sous le format : 8h30",
                 required: true,
             },
@@ -96,6 +96,8 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
     const { commandName, options } = interaction;
 
+    console.log(`Received command: ${commandName}`);
+
     try {
         switch (commandName) {
             case 'chocoblast':
@@ -113,9 +115,10 @@ client.on(Events.InteractionCreate, async (interaction) => {
                 await interaction.reply(snapgif);
                 break;
             case "naoned":
-                const landingHour = options.getString('landingHour');
-                const youLate = naoned(interaction.user.username, landingHour);
-                await interaction.reply(youLate);
+                const hour = options.getString('hour');
+                const naonedMessage = naoned(interaction.user.username, hour);
+                await interaction.reply(naonedMessage);
+                break;
             default:
                 await interaction.reply('Unknown command.');
                 break;
